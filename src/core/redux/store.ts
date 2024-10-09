@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import devToolsEnhancer from "redux-devtools-expo-dev-plugin";
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
 import {
   FLUSH,
   PAUSE,
@@ -9,14 +9,14 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
-} from "redux-persist";
+} from 'redux-persist';
 
 import {
   AUTH,
   authenticationPersistReducer,
-} from "./reducers/authentication/authentication.index";
-import { ESPORTS } from "./reducers/esports/esports.index";
-import esportsReducer from "./reducers/esports/esports.reducer";
+} from './reducers/authentication/authentication.index';
+import { ESPORTS } from './reducers/esports/esports.index';
+import esportsReducer from './reducers/esports/esports.reducer';
 
 export const store = configureStore({
   reducer: {

@@ -1,8 +1,8 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { ESPORTS } from "./esports.constants";
-import { type EsportsStateType, initialState } from "./esports.state";
-import { prefetchEsports } from "./esports.thunk";
+import { ESPORTS } from './esports.constants';
+import { type EsportsStateType, initialState } from './esports.state';
+import { prefetchEsports } from './esports.thunk';
 
 const esportsSlice = createSlice({
   name: ESPORTS,
@@ -22,8 +22,8 @@ const esportsSlice = createSlice({
       state.initialization = false;
     });
     builder.addCase(prefetchEsports.fulfilled, (state, action) => {
-      state.teams = action.payload.teams as EsportsStateType["teams"];
-      state.leagues = action.payload.leagues as EsportsStateType["leagues"];
+      state.teams = action.payload.teams as EsportsStateType['teams'];
+      state.leagues = action.payload.leagues as EsportsStateType['leagues'];
       state.initialization = false;
     });
   },

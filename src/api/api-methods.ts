@@ -1,10 +1,10 @@
-import { Env } from "@env";
+import { Env } from '@env';
 
 enum Method {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  DELETE = "DELETE",
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
 }
 
 type URL = string;
@@ -16,8 +16,8 @@ const getHeaders = (): HeadersInit => {
   const getToken = () => {};
 
   return {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${getToken()}`,
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${getToken()}`,
   };
 };
 

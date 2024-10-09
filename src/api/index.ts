@@ -1,7 +1,7 @@
-import { type Leagues, type Team } from "@/types";
+import { type Leagues, type Team } from '@/types';
 
-import ApiMethods from "./api-methods";
-import ENDPOINTS from "./endpoints";
+import ApiMethods from './api-methods';
+import ENDPOINTS from './endpoints';
 
 type ApiResponse<T> = {
   data: T[];

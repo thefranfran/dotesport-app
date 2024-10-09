@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { Gesture } from "react-native-gesture-handler";
+import { useEffect } from 'react';
+import { Gesture } from 'react-native-gesture-handler';
 import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
-import { type Leagues, type Team } from "@/types";
+import { type Leagues, type Team } from '@/types';
 
 export const useSubmitAnimation = ({
   enrolledTeam,
@@ -27,7 +27,7 @@ export const useSubmitAnimation = ({
     });
 
   const animatedViewStyle = useAnimatedStyle(() => {
-    "worklet";
+    'worklet';
     return {
       transform: [
         { translateY: progress.value },
