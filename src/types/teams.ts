@@ -1,19 +1,19 @@
-import { type EsportsIconTypes } from '@/components/esport-icon';
+import { type IconTypes } from "@/components/icon";
 
 export enum Role {
-  JUNGLE = 'JUNGLE',
-  MID = 'MID',
-  ADC = 'ADC',
-  SUPPORT = 'SUPPORT',
-  TOP = 'TOP',
+  JUNGLE = "JUNGLE",
+  MID = "MID",
+  ADC = "ADC",
+  SUPPORT = "SUPPORT",
+  TOP = "TOP",
 }
 
 export enum League {
-  LEC = 'LEC',
-  LCS = 'LCS',
-  LCK = 'LCK',
-  LPL = 'LPL',
-  LFL = 'LFL',
+  LEC = "LEC",
+  LCS = "LCS",
+  LCK = "LCK",
+  LPL = "LPL",
+  LFL = "LFL",
 }
 
 export type Players = {
@@ -34,12 +34,13 @@ export type Players = {
 export type Leagues = {
   id: number;
   name: string;
+  slug: IconTypes;
   is_available: boolean;
 };
 
 export type Team = {
   id: number;
   name: string;
-  slug: EsportsIconTypes;
+  slug: IconTypes;
   players: Players[];
 };
