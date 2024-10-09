@@ -29,6 +29,7 @@ const Text = (props: TextProps) => {
     tx,
     txOptions,
     color,
+    required,
     text,
     children,
     style: $styleOverride,
@@ -51,6 +52,7 @@ const Text = (props: TextProps) => {
   return (
     <RNText {...rest} style={$styles}>
       {content}
+      {!!required && <RNText style={$presets['required']}>*</RNText>}
     </RNText>
   );
 };

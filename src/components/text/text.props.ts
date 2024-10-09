@@ -1,15 +1,15 @@
-import type i18n from 'i18n-js';
-import type React from 'react';
+import type i18n from "i18n-js";
+import type React from "react";
 import {
   type StyleProp,
   type TextProps as RNTextProps,
   type TextStyle,
-} from 'react-native';
+} from "react-native";
 
-import { type TxKeyPath } from '@/core/i18n';
+import { type TxKeyPath } from "@/core/i18n";
+import { type Color } from "@/types";
 
-import { type Presets, type Sizes, type Weights } from './text.styles';
-import { Color } from '@/ui';
+import { type Presets, type Sizes, type Weights } from "./text.styles";
 
 export interface TextProps extends RNTextProps {
   /**
@@ -37,6 +37,10 @@ export interface TextProps extends RNTextProps {
    * One of the different types of text presets.
    */
   preset?: Presets;
+  /**
+   * Whether the text is required.
+   */
+  required?: boolean;
   /**
    * Text weight modifier.
    */

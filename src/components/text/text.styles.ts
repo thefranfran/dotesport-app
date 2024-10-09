@@ -1,7 +1,7 @@
-import { type StyleProp, type TextStyle } from 'react-native';
+import { type StyleProp, type TextStyle } from "react-native";
 
-import { isRTL } from '@/core/i18n';
-import { typography } from '@/ui';
+import { isRTL } from "@/core/i18n";
+import { typography } from "@/ui";
 
 const $fontWeightStyles = Object.entries(typography.primary).reduce(
   (acc, [weight, fontFamily]) => {
@@ -19,6 +19,15 @@ const $presets = {
   default: $baseStyle,
 
   bold: [$baseStyle, $fontWeightStyles.bold] as StyleProp<TextStyle>,
+
+  underline: [$baseStyle, { textDecorationLine: "underline" }] as StyleProp<
+    TextStyle
+  >,
+
+  required: [$baseStyle, $fontWeightStyles.bold, {
+    color: "red",
+    ...typography.sizes.lg,
+  }] as StyleProp<TextStyle>,
 
   heading: [
     $baseStyle,
@@ -41,7 +50,7 @@ const $presets = {
   ] as StyleProp<TextStyle>,
 };
 
-const $rtlStyle: TextStyle = isRTL ? { writingDirection: 'rtl' } : {};
+const $rtlStyle: TextStyle = isRTL ? { writingDirection: "rtl" } : {};
 
 export { $baseStyle, $fontWeightStyles, $presets, $rtlStyle };
 export type Weights = keyof typeof typography.primary;
