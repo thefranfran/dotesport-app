@@ -8,13 +8,15 @@ import {
   type ViewProps,
 } from 'react-native';
 
-import { esportsTeamRegistry, type IconProps } from './esport-icon.props';
+import { type IconProps, iconTeamRegistry } from './icon.props';
 
-const EsportIcon = (props: IconProps) => {
+const DEFAULT_SIZE = 26;
+
+const Icon = (props: IconProps) => {
   const {
     icon,
     color,
-    size,
+    size = DEFAULT_SIZE,
     style: $imageStyleOverride,
     containerStyle: $containerStyleOverride,
     ...WrapperProps
@@ -40,10 +42,10 @@ const EsportIcon = (props: IconProps) => {
       <Image
         style={$imageStyle}
         contentFit='contain'
-        source={esportsTeamRegistry[icon]}
+        source={iconTeamRegistry[icon]}
       />
     </Wrapper>
   );
 };
 
-export default EsportIcon;
+export default Icon;
