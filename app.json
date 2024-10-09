@@ -3,14 +3,11 @@
     "name": "dotEsport",
     "slug": "dotEsport",
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.example.with-new-arch"
     },
     "android": {
       "package": "com.example.withnewarch"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [
@@ -23,7 +20,9 @@
             "newArchEnabled": true
           }
         }
-      ]
+      ],
+      "expo-localization",
+      "expo-font"
     ]
   }
 }

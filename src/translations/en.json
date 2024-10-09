@@ -1,0 +1,8 @@
+{
+  "onboarding": {
+    "league": "Select the league you want to join for bet.",
+    "league-precision": "You can change this later in the settings.",
+    "enroll": "Select for which team you want to enroll.",
+    "enroll-precision": "You can change this later in your community settings."
+  }
+}
