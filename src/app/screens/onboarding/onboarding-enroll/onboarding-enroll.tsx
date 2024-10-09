@@ -1,72 +1,100 @@
+/* eslint-disable max-lines-per-function */
 import React, { useCallback } from 'react';
-import { FlatList, View } from 'react-native';
+import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { useSelector } from 'react-redux';
 
+import WrapperAnimated from '@/components/animations/wrapper-animated/wrapper-animated';
 import { Row } from '@/components/layout';
 import Text from '@/components/text';
-import { selectTeams } from '@/core/redux/reducers/esports/esports.selector';
+import {
+  selectLeagues,
+  selectTeams,
+} from '@/core/redux/reducers/esports/esports.selector';
 import { type RootState } from '@/core/redux/store';
-import { type Team } from '@/types';
+import { type Leagues, type Team } from '@/types';
 
 import OnboardingEnrollItem from './onboarding-enroll-item';
 
-const MAX_LIST_ITEMS_PER_ROW = 2;
-
 type OnboardingEnrollmentProps = {
   currentEnrollment: Team | undefined;
+  currentLeagues: Leagues | undefined;
+  updateLeagues: React.Dispatch<React.SetStateAction<Leagues | undefined>>;
   updateEnrollment: React.Dispatch<React.SetStateAction<Team | undefined>>;
 };
 
 const OnboardingEnrollment = (props: OnboardingEnrollmentProps) => {
-  const { currentEnrollment, updateEnrollment } = props;
+  const { currentEnrollment, currentLeagues, updateLeagues, updateEnrollment } =
+    props;
   const { styles } = useStyles(stylesheet);
 
   const teams = useSelector((state: RootState) => selectTeams(state));
+  const leagues = useSelector((state: RootState) => selectLeagues(state));
 
-  const _handleUpdateEnrollment = useCallback(
-    (team: Team) => {
-      updateEnrollment(team);
-    },
-    [updateEnrollment],
-  );
+  const _handleUpdateEnrollment = useCallback((team: Team) => {
+    updateEnrollment(team);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const _handleUpdateLeagues = useCallback((league: Leagues) => {
+    updateLeagues(league);
+    updateEnrollment(undefined);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      <Text size='xl' preset='heading' tx='onboarding.league' />
-      <Text size='sm' preset='subheading' tx='onboarding.league-precision' />
-      <Row wrap='wrap'></Row>
-
-      <View style={styles.enrollContainer}>
-        <Text size='xl' preset='heading' tx='onboarding.enroll' />
-        <Text size='sm' preset='subheading' tx='onboarding.enroll-precision' />
-        <FlatList
-          data={teams}
-          keyExtractor={(item) => `team-${item.id}`}
-          contentContainerStyle={styles.list}
-          numColumns={MAX_LIST_ITEMS_PER_ROW}
-          scrollEnabled={false}
-          renderItem={({ item }) => {
+      <WrapperAnimated>
+        <View style={styles.heading}>
+          <Text size='lg' preset='heading' tx='onboarding.league' required />
+          <Text
+            size='sm'
+            preset='subheading'
+            tx='onboarding.league-precision'
+          />
+        </View>
+        <Row wrap='wrap'>
+          {leagues.map((item) => {
             return (
               <OnboardingEnrollItem
+                key={`league-${item.id}`}
+                isActive={currentLeagues?.id === item.id}
+                isAvailable={item.is_available}
+                updateEnrollment={() => _handleUpdateLeagues(item)}
+                {...item}
+              />
+            );
+          })}
+        </Row>
+      </WrapperAnimated>
+
+      <WrapperAnimated delay={500}>
+        <View style={styles.heading}>
+          <Text size='lg' preset='heading' tx='onboarding.enroll' required />
+          <Text
+            size='sm'
+            preset='subheading'
+            tx='onboarding.enroll-precision'
+          />
+        </View>
+        <Row wrap='wrap'>
+          {teams.map((item) => {
+            return (
+              <OnboardingEnrollItem
+                key={`team-${item.id}`}
                 isActive={currentEnrollment?.id === item.id}
                 updateEnrollment={() => _handleUpdateEnrollment(item)}
                 {...item}
               />
             );
-          }}
-        />
-      </View>
+          })}
+        </Row>
+      </WrapperAnimated>
     </>
   );
 };
 
 const stylesheet = createStyleSheet((theme) => ({
-  enrollContainer: {
-    marginTop: theme.spacing.xl * 2,
-  },
-  list: {
-    marginTop: theme.spacing.xl * 2,
+  heading: {
+    marginBottom: theme.spacing.xl,
   },
 }));
 

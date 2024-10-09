@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { MoveRight } from 'lucide-react-native';
+import React, { useCallback, useState } from 'react';
 import { Pressable } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
@@ -18,9 +19,15 @@ const Onboarding = (props: OnboardingProps) => {
   const { navigation } = props;
 
   const [enrolledTeam, setEnrolledTeam] = useState<Team | undefined>(undefined);
-  const [selectedLeagues, setSelectedLeagues] = useState<Leagues[]>([]);
+  const [selectedLeagues, setSelectedLeagues] = useState<Leagues | undefined>(
+    undefined,
+  );
 
-  const { styles, theme } = useStyles(stylesheet);
+  const navigateToSettings = useCallback(() => {
+    navigation.push('Onboarding', {});
+  }, [navigation]);
+
+  const { styles } = useStyles(stylesheet);
   const { tap, animatedViewStyle } = useSubmitAnimation({
     enrolledTeam,
     selectedLeagues,
@@ -34,19 +41,22 @@ const Onboarding = (props: OnboardingProps) => {
     >
       <OnboardingEnrollment
         currentEnrollment={enrolledTeam}
+        currentLeagues={selectedLeagues}
+        updateLeagues={setSelectedLeagues}
         updateEnrollment={setEnrolledTeam}
       />
-      <Pressable style={styles.helper}>
-        <Text preset='bold' color='#fff'>
-          Get more information about how the leagues and teams work through the
-          application
-        </Text>
-      </Pressable>
 
       <GestureDetector gesture={tap}>
         <Animated.View style={[animatedViewStyle, styles.continue]}>
-          <Pressable style={styles.submit}>
-            <Text>Next</Text>
+          <Pressable style={styles.submit} onPress={navigateToSettings}>
+            <Text preset='formLabel' size='md' color='#fff'>
+              Continue your onboarding
+            </Text>
+            <MoveRight
+              style={styles.submitIcon}
+              color='#fff'
+              strokeWidth={1.5}
+            />
           </Pressable>
         </Animated.View>
       </GestureDetector>
@@ -60,10 +70,8 @@ const stylesheet = createStyleSheet((theme, runTime) => ({
     flex: 1,
   },
   helper: {
-    backgroundColor: '#000',
     paddingHorizontal: theme.spacing.xl * 1.5,
     paddingVertical: theme.spacing.lg,
-    borderRadius: theme.radius.xl,
   },
   continue: {
     position: 'absolute',
@@ -71,9 +79,15 @@ const stylesheet = createStyleSheet((theme, runTime) => ({
     bottom: runTime.insets.bottom,
   },
   submit: {
-    backgroundColor: 'red',
+    backgroundColor: 'black',
     padding: theme.spacing.lg,
     borderRadius: theme.radius.xl,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: theme.spacing.xl * 1.5,
+  },
+  submitIcon: {
+    marginStart: theme.spacing.md,
   },
 }));
 
