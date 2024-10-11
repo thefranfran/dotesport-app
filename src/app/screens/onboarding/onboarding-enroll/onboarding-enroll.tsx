@@ -66,28 +66,30 @@ const OnboardingEnrollment = (props: OnboardingEnrollmentProps) => {
         </Row>
       </WrapperAnimated>
 
-      <WrapperAnimated delay={500}>
-        <View style={styles.heading}>
-          <Text size='lg' preset='heading' tx='onboarding.enroll' required />
-          <Text
-            size='sm'
-            preset='subheading'
-            tx='onboarding.enroll-precision'
-          />
-        </View>
-        <Row wrap='wrap'>
-          {teams.map((item) => {
-            return (
-              <OnboardingEnrollItem
-                key={`team-${item.id}`}
-                isActive={currentEnrollment?.id === item.id}
-                updateEnrollment={() => _handleUpdateEnrollment(item)}
-                {...item}
-              />
-            );
-          })}
-        </Row>
-      </WrapperAnimated>
+      {currentLeagues ? (
+        <WrapperAnimated>
+          <View style={styles.heading}>
+            <Text size='lg' preset='heading' tx='onboarding.enroll' required />
+            <Text
+              size='sm'
+              preset='subheading'
+              tx='onboarding.enroll-precision'
+            />
+          </View>
+          <Row wrap='wrap'>
+            {teams.map((item) => {
+              return (
+                <OnboardingEnrollItem
+                  key={`team-${item.id}`}
+                  isActive={currentEnrollment?.id === item.id}
+                  updateEnrollment={() => _handleUpdateEnrollment(item)}
+                  {...item}
+                />
+              );
+            })}
+          </Row>
+        </WrapperAnimated>
+      ) : null}
     </>
   );
 };

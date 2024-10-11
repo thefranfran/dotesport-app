@@ -5,7 +5,7 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { type RootStackScreenProps } from '@/app/bottom-navigation';
+import { type OnboardingStackScreenProps } from '@/app/bottom-navigation';
 import { Screen } from '@/components/screen';
 import Text from '@/components/text';
 import { type Leagues, type Team } from '@/types';
@@ -13,7 +13,7 @@ import { type Leagues, type Team } from '@/types';
 import { useSubmitAnimation } from './onboarding.hooks';
 import OnboardingEnrollment from './onboarding-enroll/onboarding-enroll';
 
-interface OnboardingProps extends RootStackScreenProps<'Onboarding'> {}
+interface OnboardingProps extends OnboardingStackScreenProps<'Onboarding'> {}
 
 const Onboarding = (props: OnboardingProps) => {
   const { navigation } = props;
@@ -24,7 +24,7 @@ const Onboarding = (props: OnboardingProps) => {
   );
 
   const navigateToSettings = useCallback(() => {
-    navigation.push('Onboarding', {});
+    navigation.push('OnboardingSettings');
   }, [navigation]);
 
   const { styles } = useStyles(stylesheet);
