@@ -7,8 +7,8 @@ import {
   BottomNavigation,
   type RootStackParamList,
 } from '@/app/bottom-navigation';
-import Onboarding from '@/app/screens/onboarding/onboarding';
 
+import { OnboardingStackNavigation } from './onboarding-stack';
 import { useInitializationNavigation } from './stack-navigation.hooks';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -18,7 +18,8 @@ const defaultScreenOptions = {
 } satisfies NativeStackNavigationOptions;
 
 export const StackNavigation = () => {
-  const { initialRouteName, initialization } = useInitializationNavigation();
+  const { hasToCompleteOnboarding, initialization } =
+    useInitializationNavigation();
 
   if (initialization) {
     // TODO: Add a loading screen
@@ -26,14 +27,15 @@ export const StackNavigation = () => {
   }
 
   return (
-    <Stack.Navigator
-      initialRouteName={initialRouteName}
-      screenOptions={defaultScreenOptions}
-    >
-      <Stack.Group navigationKey='OnboardingParent'>
-        <Stack.Screen name='Onboarding' component={Onboarding} />
-      </Stack.Group>
-      <Stack.Screen name='Root' component={BottomNavigation} />
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      {hasToCompleteOnboarding ? (
+        <Stack.Screen
+          name='OnboardingStack'
+          component={OnboardingStackNavigation}
+        />
+      ) : (
+        <Stack.Screen name='Root' component={BottomNavigation} />
+      )}
     </Stack.Navigator>
   );
 };
