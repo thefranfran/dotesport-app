@@ -20,6 +20,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Toaster } from 'sonner-native';
 
+import FontSizeProvider from '@/core/font-scaling';
 import { store, storePersistor } from '@/core/redux/store';
 import { customFontsToLoad } from '@/ui';
 
@@ -69,12 +70,14 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           <StoreProvider store={store}>
             <PersistGate loading={null} persistor={storePersistor}>
               <QueryClientProvider client={queryClient}>
-                <BottomSheetModalProvider>
-                  <NavigationContainer ref={navigationRef}>
-                    {children}
-                  </NavigationContainer>
-                  <Toaster />
-                </BottomSheetModalProvider>
+                <FontSizeProvider>
+                  <BottomSheetModalProvider>
+                    <NavigationContainer ref={navigationRef}>
+                      {children}
+                    </NavigationContainer>
+                    <Toaster />
+                  </BottomSheetModalProvider>
+                </FontSizeProvider>
               </QueryClientProvider>
             </PersistGate>
           </StoreProvider>

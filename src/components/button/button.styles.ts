@@ -22,8 +22,6 @@ const $transparentViewStyle: StyleProp<ViewStyle> = {
 };
 
 const $baseTextStyle: StyleProp<TextStyle> = {
-    fontSize: 16,
-    lineHeight: 20,
     fontFamily: typography.primary.medium,
     textAlign: "center",
     flexShrink: 1,

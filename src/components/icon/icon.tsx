@@ -8,15 +8,19 @@ import {
   type ViewProps,
 } from 'react-native';
 
+import { useFontSize } from '@/core/font-scaling';
+
 import { type IconProps, iconTeamRegistry } from './icon.props';
 
 const DEFAULT_SIZE = 26;
 
 const Icon = (props: IconProps) => {
+  const { currentFontSize } = useFontSize();
+
   const {
     icon,
     color,
-    size = DEFAULT_SIZE,
+    size = DEFAULT_SIZE * currentFontSize,
     style: $imageStyleOverride,
     containerStyle: $containerStyleOverride,
     ...WrapperProps

@@ -1,17 +1,13 @@
+/* eslint-disable max-lines-per-function */
 import React from 'react';
 import { type StyleProp, Text as RNText, type TextStyle } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
+import { useFontSize } from '@/core/font-scaling';
 import { translate } from '@/core/i18n';
-import { typography } from '@/ui';
 
 import { type TextProps } from './text.props';
-import {
-  $fontWeightStyles,
-  $presets,
-  $rtlStyle,
-  type Presets,
-} from './text.styles';
+import { $fontWeightStyles, $rtlStyle, type Presets } from './text.styles';
 
 /**
  * For your text displaying needs.
@@ -21,6 +17,7 @@ import {
  * @returns {JSX.Element} The rendered `Text` component.
  */
 const Text = (props: TextProps) => {
+  const { fontSizes } = useFontSize();
   const { theme } = useStyles();
 
   const {
@@ -39,18 +36,63 @@ const Text = (props: TextProps) => {
   const i18nText = tx && translate(tx, txOptions);
   const content = i18nText || text || children;
 
+  const $baseStyle: StyleProp<TextStyle> = [
+    fontSizes.sm,
+    $fontWeightStyles.normal,
+  ];
+
+  const $presets = {
+    default: $baseStyle,
+
+    bold: [$baseStyle, $fontWeightStyles.bold] as StyleProp<TextStyle>,
+
+    underline: [
+      $baseStyle,
+      { textDecorationLine: 'underline' },
+    ] as StyleProp<TextStyle>,
+
+    required: [
+      $baseStyle,
+      $fontWeightStyles.bold,
+      {
+        color: 'red',
+        ...fontSizes.lg,
+      },
+    ] as StyleProp<TextStyle>,
+
+    heading: [
+      $baseStyle,
+      fontSizes.xxl,
+      $fontWeightStyles.bold,
+    ] as StyleProp<TextStyle>,
+
+    subheading: [
+      $baseStyle,
+      fontSizes.lg,
+      $fontWeightStyles.medium,
+    ] as StyleProp<TextStyle>,
+
+    formLabel: [$baseStyle, $fontWeightStyles.medium] as StyleProp<TextStyle>,
+
+    formHelper: [
+      $baseStyle,
+      fontSizes.sm,
+      $fontWeightStyles.normal,
+    ] as StyleProp<TextStyle>,
+  };
+
   const preset: Presets = props.preset ?? 'default';
   const $styles: StyleProp<TextStyle> = [
     $rtlStyle,
     $presets[preset],
     { color: color ?? theme.colors.text },
     weight && $fontWeightStyles[weight],
-    size && typography.sizes[size],
+    size && fontSizes[size],
     $styleOverride,
   ];
 
   return (
-    <RNText {...rest} style={$styles}>
+    <RNText {...rest} style={$styles} maxFontSizeMultiplier={1.3}>
       {content}
       {!!required && <RNText style={$presets['required']}>*</RNText>}
     </RNText>
