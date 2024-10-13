@@ -1,9 +1,11 @@
 import {
   createContext,
   type ReactNode,
+  useCallback,
   useContext,
   useEffect,
-  useState,
+  useMemo,
+  useReducer,
 } from 'react';
 import { PixelRatio } from 'react-native';
 
@@ -26,57 +28,91 @@ const FontSizeContext = createContext<FontSizeContextType | undefined>(
 
 const fontSizeKey = 'userFontSizeMultiplier';
 
+interface initialStateType {
+  currentFontSize: number;
+}
+
+const reducer = (
+  state: initialStateType,
+  action: { type: string; payload: number },
+) => {
+  switch (action.type) {
+    case 'CHANGE_FONT_SIZE':
+      return {
+        ...state,
+        currentFontSize: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 const FontSizeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentFontSize, setCurrentFontSize] = useState<number>(1);
+  const [state, dispatch] = useReducer(reducer, { currentFontSize: 1 });
 
   useEffect(() => {
     (async () => {
       const savedMultiplier = await getItem(fontSizeKey);
       if (savedMultiplier) {
-        setCurrentFontSize(Number(savedMultiplier));
+        dispatch({
+          type: 'CHANGE_FONT_SIZE',
+          payload: Number(savedMultiplier),
+        });
       } else {
-        setCurrentFontSize(
-          PixelRatio.getFontScale() > MAX_FONT_MULTIPLIER
-            ? MAX_FONT_MULTIPLIER
-            : PixelRatio.getFontScale(),
-        );
+        dispatch({
+          type: 'CHANGE_FONT_SIZE',
+          payload:
+            PixelRatio.getFontScale() > MAX_FONT_MULTIPLIER
+              ? MAX_FONT_MULTIPLIER
+              : PixelRatio.getFontScale(),
+        });
       }
     })();
   }, []);
 
-  const fontSizes = Object.keys(typography.sizes)?.reduce((acc, key) => {
-    acc[key as keyof FontSizes] = {
-      fontSize: Math.round(
-        PixelRatio.roundToNearestPixel(
-          typography.sizes[key as keyof FontSizes].fontSize * currentFontSize,
+  const fontSizes = useMemo(() => {
+    return Object.keys(typography.sizes)?.reduce((acc, key) => {
+      acc[key as keyof FontSizes] = {
+        fontSize: Math.round(
+          PixelRatio.roundToNearestPixel(
+            typography.sizes[key as keyof FontSizes].fontSize *
+              state.currentFontSize,
+          ),
         ),
-      ),
-      lineHeight: Math.round(
-        PixelRatio.roundToNearestPixel(
-          typography.sizes[key as keyof FontSizes].lineHeight * currentFontSize,
+        lineHeight: Math.round(
+          PixelRatio.roundToNearestPixel(
+            typography.sizes[key as keyof FontSizes].lineHeight *
+              state.currentFontSize,
+          ),
         ),
-      ),
-    };
-    return acc;
-  }, {} as FontSizes);
+      };
+      return acc;
+    }, {} as FontSizes);
+  }, [state.currentFontSize]);
 
-  const changeFontSize = async (multiplier: number) => {
+  const changeFontSize = useCallback((multiplier: number) => {
     if (multiplier > MAX_FONT_MULTIPLIER) {
       return;
     }
 
-    setCurrentFontSize(multiplier);
-    await setItem(fontSizeKey, multiplier?.toString());
-  };
+    dispatch({
+      type: 'CHANGE_FONT_SIZE',
+      payload: multiplier,
+    });
+    setItem(fontSizeKey, multiplier?.toString());
+  }, []);
+
+  const store = useMemo(
+    () => ({
+      fontSizes,
+      currentFontSize: state.currentFontSize,
+      changeFontSize,
+    }),
+    [state.currentFontSize, fontSizes, changeFontSize],
+  );
 
   return (
-    <FontSizeContext.Provider
-      value={{
-        fontSizes,
-        changeFontSize,
-        currentFontSize,
-      }}
-    >
+    <FontSizeContext.Provider value={store}>
       {children}
     </FontSizeContext.Provider>
   );

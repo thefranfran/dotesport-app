@@ -20,8 +20,11 @@ const Onboarding = (props: OnboardingProps) => {
   );
 
   const navigateToSettings = useCallback(() => {
-    navigation.push('OnboardingSettings');
-  }, [navigation]);
+    navigation.push('OnboardingSettings', {
+      preferred_league: selectedLeagues!,
+      preferred_team: enrolledTeam!,
+    });
+  }, [selectedLeagues, enrolledTeam]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { styles } = useStyles(stylesheet);
   const { animatedViewStyle } = useSubmitAnimation({

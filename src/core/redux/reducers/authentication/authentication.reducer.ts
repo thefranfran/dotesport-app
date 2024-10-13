@@ -1,12 +1,12 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import { removeItem, setItem } from '@/core/storage';
+import { removeItem, setItem } from "@/core/storage";
 
-import { AUTH } from './authentication.constants';
+import { AUTH } from "./authentication.constants";
 import {
   type AuthenticationStateType,
   initialState,
-} from './authentication.state';
+} from "./authentication.state";
 
 const authenticationSlice = createSlice({
   name: AUTH,
@@ -15,15 +15,19 @@ const authenticationSlice = createSlice({
     signIn: (state, action: PayloadAction<AuthenticationStateType>) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
-      setItem('token', action.payload.token);
+      setItem("token", action.payload.token);
     },
     signOut: (state) => {
-      state.token = '';
+      state.token = "";
       state.user = undefined;
-      removeItem('token');
+      removeItem("token");
+    },
+    updateOnboarding: (state, action: PayloadAction<boolean>) => {
+      setItem("hasToCompleteOnboarding", action.payload);
+      state.hasToCompleteOnboarding = action.payload;
     },
   },
 });
 
-export const { signIn } = authenticationSlice.actions;
+export const { updateOnboarding } = authenticationSlice.actions;
 export default authenticationSlice.reducer;

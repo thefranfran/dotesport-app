@@ -5,6 +5,8 @@ import type {
 } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { type Leagues, type Team } from "@/types";
+
 export type RootStackParamList = {
   Root: NavigatorScreenParams<HomeTabParamList>;
   OnboardingStack: NavigatorScreenParams<OnboardingStackParamList>;
@@ -19,7 +21,14 @@ export type OnboardingStackScreenProps<
 
 export type OnboardingStackParamList = {
   Onboarding: undefined;
-  OnboardingSettings: undefined;
+  OnboardingSettings: {
+    preferred_league: Leagues;
+    preferred_team: Team;
+  };
+  OnboardingProfile: {
+    preferred_league: Leagues;
+    preferred_team: Team;
+  };
 };
 
 export type HomeTabParamList = {

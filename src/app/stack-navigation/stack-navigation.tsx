@@ -28,7 +28,7 @@ export const StackNavigation = () => {
 
   return (
     <Stack.Navigator screenOptions={defaultScreenOptions}>
-      {hasToCompleteOnboarding ? (
+      {!hasToCompleteOnboarding ? (
         <Stack.Screen
           name='OnboardingStack'
           component={OnboardingStackNavigation}
