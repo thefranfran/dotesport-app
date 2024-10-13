@@ -11,6 +11,7 @@ import { useStyles } from 'react-native-unistyles';
 
 import Text from '@/components/text';
 import { $presets, type Presets } from '@/components/text/text.styles';
+import { useHaptic } from '@/core/hooks/use-haptics';
 
 import { type ButtonProps } from './button.props';
 import {
@@ -23,6 +24,7 @@ import {
 
 const Button = (props: ButtonProps) => {
   const { theme } = useStyles();
+  const hapticsFeedback = useHaptic('light');
 
   const {
     tx,
@@ -141,11 +143,18 @@ const Button = (props: ButtonProps) => {
     ];
   }
 
+  const feedBackPressable = () => {
+    // @ts-ignore
+    hapticsFeedback();
+    props.onPress && props.onPress();
+  };
+
   return (
     <Pressable
       style={$viewStyle}
       accessibilityRole='button'
       accessibilityState={{ disabled: !!disabled }}
+      onPress={feedBackPressable}
       {...rest}
       disabled={disabled}
     >

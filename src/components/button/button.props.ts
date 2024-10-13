@@ -95,4 +95,9 @@ export interface ButtonProps extends PressableProps {
      * An optional style override for the disabled state
      */
     disabledStyle?: StyleProp<ViewStyle>;
+    /**
+     * An optional onPress function.
+     * @returns {void}
+     */
+    onPress?: () => void;
 }
