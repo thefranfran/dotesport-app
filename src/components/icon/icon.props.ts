@@ -1,4 +1,6 @@
 import { type ImageStyle } from "expo-image";
+import { LucideIcon, LucideProps } from "lucide-react-native";
+import React, { ReactElement } from "react";
 import {
   type StyleProp,
   type TouchableOpacityProps,
@@ -11,7 +13,7 @@ export interface IconProps extends TouchableOpacityProps {
   /**
    * The name of the icon
    */
-  icon: IconTypes;
+  icon?: IconTypes;
 
   /**
    * An optional tint color for the icon
@@ -37,6 +39,10 @@ export interface IconProps extends TouchableOpacityProps {
    * An optional function to be called when the icon is pressed
    */
   onPress?: TouchableOpacityProps["onPress"];
+
+  lucideIcon?: (props: LucideProps) => ReactElement<LucideProps | LucideIcon>;
+
+  overrideIcon?: LucideProps;
 }
 
 export const iconTeamRegistry = {

@@ -10,7 +10,7 @@ const $fontWeightStyles = Object.entries(typography.primary).reduce(
   {},
 ) as Record<Weights, TextStyle>;
 
-const $presets = {
+export const $presets = {
   default: typography.sizes.sm,
   bold: [typography.sizes.sm, $fontWeightStyles.bold],
   underline: [typography.sizes.sm, { textDecorationLine: "underline" }],

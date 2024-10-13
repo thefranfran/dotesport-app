@@ -10,6 +10,7 @@ export interface FlexProps extends React.PropsWithChildren {
   justify?: ViewStyle['justifyContent'];
   wrap?: ViewStyle['flexWrap'];
   backgroundColor?: ViewStyle['backgroundColor'];
+  style?: ViewStyle;
 }
 
 export function Flex({
@@ -21,6 +22,7 @@ export function Flex({
   justify: justifyContent,
   wrap: flexWrap,
   backgroundColor,
+  style,
 }: FlexProps) {
   const { theme } = useStyles();
 
@@ -35,6 +37,7 @@ export function Flex({
         gap,
         justifyContent,
         backgroundColor: backgroundColor ?? theme.colors.background,
+        ...style,
       }}
     >
       {children}
