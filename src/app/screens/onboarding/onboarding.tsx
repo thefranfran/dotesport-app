@@ -1,16 +1,12 @@
-import { MoveRight } from 'lucide-react-native';
 import React, { useCallback, useState } from 'react';
-import { Pressable } from 'react-native';
-import { GestureDetector } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { type OnboardingStackScreenProps } from '@/app/bottom-navigation';
 import { Screen } from '@/components/screen';
-import Text from '@/components/text';
 import { type Leagues, type Team } from '@/types';
 
 import { useSubmitAnimation } from './onboarding.hooks';
+import NextButton from './onboarding-bottom-button';
 import OnboardingEnrollment from './onboarding-enroll/onboarding-enroll';
 
 interface OnboardingProps extends OnboardingStackScreenProps<'Onboarding'> {}
@@ -28,7 +24,7 @@ const Onboarding = (props: OnboardingProps) => {
   }, [navigation]);
 
   const { styles } = useStyles(stylesheet);
-  const { tap, animatedViewStyle } = useSubmitAnimation({
+  const { animatedViewStyle } = useSubmitAnimation({
     enrolledTeam,
     selectedLeagues,
   });
@@ -45,26 +41,16 @@ const Onboarding = (props: OnboardingProps) => {
         updateLeagues={setSelectedLeagues}
         updateEnrollment={setEnrolledTeam}
       />
-
-      <GestureDetector gesture={tap}>
-        <Animated.View style={[animatedViewStyle, styles.continue]}>
-          <Pressable style={styles.submit} onPress={navigateToSettings}>
-            <Text preset='formLabel' size='md' color='#fff'>
-              Continue your onboarding
-            </Text>
-            <MoveRight
-              style={styles.submitIcon}
-              color='#fff'
-              strokeWidth={1.5}
-            />
-          </Pressable>
-        </Animated.View>
-      </GestureDetector>
+      <NextButton
+        title='Continue your onboarding'
+        animationStyles={animatedViewStyle}
+        navigate={navigateToSettings}
+      />
     </Screen>
   );
 };
 
-const stylesheet = createStyleSheet((theme, runTime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   container: {
     paddingHorizontal: theme.spacing.lg * 2,
     flex: 1,
@@ -72,22 +58,6 @@ const stylesheet = createStyleSheet((theme, runTime) => ({
   helper: {
     paddingHorizontal: theme.spacing.xl * 1.5,
     paddingVertical: theme.spacing.lg,
-  },
-  continue: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: runTime.insets.bottom,
-  },
-  submit: {
-    backgroundColor: 'black',
-    padding: theme.spacing.lg,
-    borderRadius: theme.radius.xl,
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingHorizontal: theme.spacing.xl * 1.5,
-  },
-  submitIcon: {
-    marginStart: theme.spacing.md,
   },
 }));
 

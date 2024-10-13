@@ -44,7 +44,7 @@ const OnboardingEnrollment = (props: OnboardingEnrollmentProps) => {
     <>
       <WrapperAnimated>
         <View style={styles.heading}>
-          <Text size='lg' preset='heading' tx='onboarding.league' required />
+          <Text size='xl' preset='heading' tx='onboarding.league' required />
           <Text
             size='sm'
             preset='subheading'
@@ -69,7 +69,7 @@ const OnboardingEnrollment = (props: OnboardingEnrollmentProps) => {
       {currentLeagues ? (
         <WrapperAnimated>
           <View style={styles.heading}>
-            <Text size='lg' preset='heading' tx='onboarding.enroll' required />
+            <Text size='xl' preset='heading' tx='onboarding.enroll' required />
             <Text
               size='sm'
               preset='subheading'
