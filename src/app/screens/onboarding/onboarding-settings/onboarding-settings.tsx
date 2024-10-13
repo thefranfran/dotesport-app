@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React, { useCallback, useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
@@ -20,7 +21,7 @@ type Settings = {
 };
 
 const OnboardingSettings = (props: OnboardingSettingsProps) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
   const { styles } = useStyles(stylesheet);
   const toggleFeedback = useHaptic('selection');
 
@@ -33,6 +34,12 @@ const OnboardingSettings = (props: OnboardingSettingsProps) => {
   const { position, visibleFontScaling, toggleFontScaling } = useHeader({
     navigation,
   });
+
+  const navigateToProfile = useCallback(() => {
+    navigation.push('OnboardingProfile', {
+      ...route.params,
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleSwitch = useCallback((key: keyof Settings) => {
     toggleFeedback();
@@ -80,7 +87,7 @@ const OnboardingSettings = (props: OnboardingSettingsProps) => {
         onToggle={() => {}}
       />
 
-      <NextButton title='Create your profile' navigate={navigation.goBack} />
+      <NextButton title='Create your profile' navigate={navigateToProfile} />
     </Screen>
   );
 };
