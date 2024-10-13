@@ -1,4 +1,5 @@
 /* eslint-disable max-lines-per-function */
+import { useMemo } from 'react';
 import {
   type TextStyle,
   TouchableOpacity,
@@ -9,6 +10,7 @@ import { useStyles } from 'react-native-unistyles';
 
 import Icon from '@/components/icon';
 import Text from '@/components/text';
+import { useFontSize } from '@/core/font-scaling';
 import { isRTL, translate } from '@/core/i18n';
 import { spacing, useSafeAreaInsetsStyle } from '@/ui';
 
@@ -16,6 +18,8 @@ import { type HeaderActionProps, type HeaderProps } from './header.props';
 
 export default function Header(props: HeaderProps) {
   const { theme } = useStyles();
+  const { currentFontSize } = useFontSize();
+
   const {
     backgroundColor = theme.colors.background,
     LeftActionComponent,
@@ -47,6 +51,13 @@ export default function Header(props: HeaderProps) {
 
   const titleContent = titleTx ? translate(titleTx, titleTxOptions) : title;
 
+  const headerStyle = useMemo(
+    () => ({
+      marginHorizontal: spacing.xl * 1.5 * currentFontSize,
+    }),
+    [], // eslint-disable-line react-hooks/exhaustive-deps
+  ) satisfies ViewStyle;
+
   return (
     <View
       style={[
@@ -56,7 +67,7 @@ export default function Header(props: HeaderProps) {
         $containerStyleOverride,
       ]}
     >
-      <View style={[$wrapper, $styleOverride]}>
+      <View style={[$wrapper, $styleOverride, headerStyle]}>
         <HeaderAction
           tx={leftTx}
           text={leftText}
