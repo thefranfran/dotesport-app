@@ -12,7 +12,7 @@ import { typography } from '@/ui';
 import { getItem, setItem } from './storage';
 
 type FontSizes = typeof typography.sizes;
-const MAX_FONT_MULTIPLIER: number = 1.3;
+export const MAX_FONT_MULTIPLIER: number = 1.3;
 
 export type FontSizeContextType = {
   fontSizes: FontSizes;
