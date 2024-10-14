@@ -1,28 +1,27 @@
-import { useLayoutEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useLayoutEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { prefetchEsports } from '@/core/redux/reducers/esports/esports.thunk';
-import { type AppDispatch, type RootState } from '@/core/redux/store';
-import { getItem } from '@/core/storage';
-
-import { type RootStackParamList } from '../bottom-navigation';
+import { updateOnboarding } from "@/core/redux/reducers/authentication/authentication.reducer";
+import { finallyInitialization } from "@/core/redux/reducers/esports/esports.reducer";
+import { prefetchEsports } from "@/core/redux/reducers/esports/esports.thunk";
+import { type AppDispatch, type RootState } from "@/core/redux/store";
+import { getItem } from "@/core/storage";
 
 export const useInitializationNavigation = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { initialization } = useSelector((state: RootState) => state.esports);
-
-  const [hasToCompleteOnboarding, setHasToCompleteOnboarding] =
-    useState<boolean>(false);
-
-  const initialRouteName: keyof RootStackParamList = useMemo(() => {
-    return !hasToCompleteOnboarding ? 'Onboarding' : 'Root';
-  }, [hasToCompleteOnboarding]);
+  const { hasToCompleteOnboarding } = useSelector((state: RootState) =>
+    state.authentication
+  );
 
   useLayoutEffect(() => {
     dispatch(prefetchEsports()).finally(() => {
-      setHasToCompleteOnboarding(getItem<boolean>('hasToCompleteOnboarding'));
+      dispatch(
+        updateOnboarding(getItem<boolean>("hasToCompleteOnboarding") ?? false),
+      );
+      dispatch(finallyInitialization());
     });
-  }, [dispatch]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { initialRouteName, initialization };
+  return { hasToCompleteOnboarding, initialization };
 };

@@ -1,10 +1,8 @@
-import { type Team } from '@/types';
-
-interface League {}
+import { type Leagues, type Team } from "@/types";
 
 type EsportsStateType = {
   teams: Team[];
-  leagues: League[];
+  leagues: Leagues[];
   initialization: boolean;
 };
 
@@ -14,4 +12,4 @@ const initialState: EsportsStateType = {
   initialization: true,
 };
 
-export { EsportsStateType, initialState, League };
+export { EsportsStateType, initialState };

@@ -1,23 +1,33 @@
-type RGB = `rgb(${number}, ${number}, ${number})`;
-type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
-type HEX = `#${string}`;
+import { type Colors } from "@/types";
 
-export type Color = RGB | RGBA | HEX;
+import { darkPalette, lightPalette } from "./palette";
 
-export type Colors = {
-  text: Color;
-  background: Color;
-  transparent: Color;
+export const teamsColors = {
+  "g2-esports": "#000",
+  "fnatic": "#FF5900",
+  "team-bds": "#FF0074",
+  "mad-lions-koi": "#C5AA76",
+  "vitality": "#FFFF00",
+  "rogue": "#01B0FE",
+};
+
+export const leaguesColors = {
+  "lec": "#00E5BF",
+  "lck": "#FF0074",
+  "lpl": "#C5AA76",
+  "lcs": "#6360F0",
 };
 
 export const lightColors: Colors = {
-  text: '#000000',
-  background: '#ffffff',
-  transparent: 'rgba(0, 0, 0, 0)',
+  text: "#000000",
+  background: "#ffffff",
+  transparent: "rgba(0, 0, 0, 0)",
+  palette: lightPalette,
 } as const;
 
 export const darkColors: Colors = {
-  text: '#ffffff',
-  background: '#000000',
-  transparent: 'rgba(0, 0, 0, 0)',
+  text: "#ffffff",
+  background: "#000000",
+  transparent: "rgba(0, 0, 0, 0)",
+  palette: darkPalette,
 } as const;

@@ -1,10 +1,15 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { type RootState } from '@/core/redux/store';
+import { type RootState } from "@/core/redux/store";
 
 const esportSelector = (state: RootState) => state.esports;
 
 export const selectTeams = createSelector(
   [esportSelector],
   (esport) => esport.teams,
+);
+
+export const selectLeagues = createSelector(
+  [esportSelector],
+  (esport) => esport.leagues,
 );

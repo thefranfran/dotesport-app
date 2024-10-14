@@ -1,74 +1,84 @@
 import React, { useMemo } from 'react';
-import {
-  Pressable,
-  type StyleProp,
-  type TextStyle,
-  type ViewStyle,
-} from 'react-native';
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { UnistylesRuntime } from 'react-native-unistyles';
 
-import { type EsportsIconTypes } from '@/components/esport-icon';
-import EsportIcon from '@/components/esport-icon/esport-icon';
-import Text from '@/components/text';
+import Button from '@/components/button/button';
+import Icon, { type IconTypes } from '@/components/icon';
+import {
+  LEAGUES_ADAPTIVE_TINT,
+  LEAGUES_ADJUSTED_TINT,
+  TEAMS_ADAPTIVE_TINT,
+  TEAMS_ADJUSTED_TINT,
+} from '@/core/esports';
 
 type OnboardingEnrollmentItemProps = {
   name: string;
-  slug: EsportsIconTypes;
+  slug: IconTypes;
   isActive: boolean;
+  isAvailable?: boolean;
   updateEnrollment: () => void;
 };
-
-const ICON_SIZE = 32;
-const TEAMS_ADAPTIVE_TINT = [
-  'g2-esports',
-  'sk-gaming',
-  'karmine-corp',
-  'giantx',
-];
 
 const OnboardingEnrollmentItem = ({
   name,
   slug,
   isActive,
+  isAvailable = true,
   updateEnrollment,
 }: OnboardingEnrollmentItemProps) => {
   const { styles, theme } = useStyles(stylesheet);
 
-  const currentTheme = UnistylesRuntime.themeName;
-
-  const iconAdaptiveTint = useMemo(() => {
-    if (
-      currentTheme === 'light' &&
-      TEAMS_ADAPTIVE_TINT.some((team) => slug.includes(team))
-    ) {
-      return isActive ? theme.colors.background : '#000';
+  const iconColorReactive = useMemo(() => {
+    if (isActive) {
+      return TEAMS_ADAPTIVE_TINT[slug]?.icon
+        ? TEAMS_ADAPTIVE_TINT[slug].icon
+        : LEAGUES_ADAPTIVE_TINT[slug].icon;
     }
-    return undefined;
-  }, [currentTheme, isActive, slug]);
+
+    return TEAMS_ADJUSTED_TINT.includes(slug) ||
+      LEAGUES_ADJUSTED_TINT.includes(slug)
+      ? '#000'
+      : undefined;
+  }, [isActive]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const textColorReactive: StyleProp<TextStyle> = useMemo(() => {
     return {
       marginLeft: theme.spacing.md,
-      color: isActive ? theme.colors.background : theme.colors.text,
+      color: isActive
+        ? ((TEAMS_ADAPTIVE_TINT[slug]?.text &&
+            TEAMS_ADAPTIVE_TINT[slug].text) ??
+          LEAGUES_ADAPTIVE_TINT[slug].text)
+        : theme.colors.text,
     };
-  }, [isActive]);
+  }, [isActive]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const itemReactiveStyle: StyleProp<ViewStyle> = useMemo(() => {
     return [
       styles.item,
       {
         borderColor: isActive ? theme.colors.transparent : '#757575',
-        backgroundColor: isActive ? '#000' : theme.colors.background,
+        backgroundColor: isActive
+          ? ((TEAMS_ADAPTIVE_TINT[slug]?.background &&
+              TEAMS_ADAPTIVE_TINT[slug].background) ??
+            LEAGUES_ADAPTIVE_TINT[slug].background)
+          : theme.colors.background,
       },
     ];
-  }, [isActive]);
+  }, [isActive]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Pressable style={itemReactiveStyle} onPress={updateEnrollment}>
-      <EsportIcon icon={slug} size={ICON_SIZE} color={iconAdaptiveTint} />
-      <Text style={textColorReactive}>{name}</Text>
-    </Pressable>
+    <Button
+      onPress={updateEnrollment}
+      style={itemReactiveStyle}
+      text={name}
+      textStyle={textColorReactive}
+      disabled={!isAvailable}
+      disabledStyle={styles.disabled}
+      pressedEnabled={false}
+      LeftAccessory={(props) => (
+        <Icon icon={slug} color={iconColorReactive} {...props} />
+      )}
+    />
   );
 };
 
@@ -77,11 +87,13 @@ const stylesheet = createStyleSheet((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: theme.spacing.xl * 1.5,
-    paddingVertical: theme.spacing.lg,
     borderRadius: theme.radius.xl,
     marginBottom: theme.spacing.lg * 1.5,
     marginRight: theme.spacing.xl,
     borderWidth: 1,
+  },
+  disabled: {
+    opacity: 0.5,
   },
 }));
 

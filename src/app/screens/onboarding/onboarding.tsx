@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
-import { Pressable } from 'react-native';
-import { GestureDetector } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import React, { useCallback, useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { type RootStackScreenProps } from '@/app/bottom-navigation';
+import { type OnboardingStackScreenProps } from '@/app/bottom-navigation';
 import { Screen } from '@/components/screen';
-import Text from '@/components/text';
 import { type Leagues, type Team } from '@/types';
 
 import { useSubmitAnimation } from './onboarding.hooks';
+import NextButton from './onboarding-bottom-button';
 import OnboardingEnrollment from './onboarding-enroll/onboarding-enroll';
 
-interface OnboardingProps extends RootStackScreenProps<'Onboarding'> {}
+interface OnboardingProps extends OnboardingStackScreenProps<'Onboarding'> {}
 
 const Onboarding = (props: OnboardingProps) => {
   const { navigation } = props;
 
   const [enrolledTeam, setEnrolledTeam] = useState<Team | undefined>(undefined);
-  const [selectedLeagues, setSelectedLeagues] = useState<Leagues[]>([]);
+  const [selectedLeagues, setSelectedLeagues] = useState<Leagues | undefined>(
+    undefined,
+  );
 
-  const { styles, theme } = useStyles(stylesheet);
-  const { tap, animatedViewStyle } = useSubmitAnimation({
+  const navigateToSettings = useCallback(() => {
+    navigation.push('OnboardingSettings', {
+      preferred_league: selectedLeagues!,
+      preferred_team: enrolledTeam!,
+    });
+  }, [selectedLeagues, enrolledTeam]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const { styles } = useStyles(stylesheet);
+  const { animatedViewStyle } = useSubmitAnimation({
     enrolledTeam,
     selectedLeagues,
   });
@@ -34,46 +40,27 @@ const Onboarding = (props: OnboardingProps) => {
     >
       <OnboardingEnrollment
         currentEnrollment={enrolledTeam}
+        currentLeagues={selectedLeagues}
+        updateLeagues={setSelectedLeagues}
         updateEnrollment={setEnrolledTeam}
       />
-      <Pressable style={styles.helper}>
-        <Text preset='bold' color='#fff'>
-          Get more information about how the leagues and teams work through the
-          application
-        </Text>
-      </Pressable>
-
-      <GestureDetector gesture={tap}>
-        <Animated.View style={[animatedViewStyle, styles.continue]}>
-          <Pressable style={styles.submit}>
-            <Text>Next</Text>
-          </Pressable>
-        </Animated.View>
-      </GestureDetector>
+      <NextButton
+        title='Continue your onboarding'
+        animationStyles={animatedViewStyle}
+        navigate={navigateToSettings}
+      />
     </Screen>
   );
 };
 
-const stylesheet = createStyleSheet((theme, runTime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   container: {
     paddingHorizontal: theme.spacing.lg * 2,
     flex: 1,
   },
   helper: {
-    backgroundColor: '#000',
     paddingHorizontal: theme.spacing.xl * 1.5,
     paddingVertical: theme.spacing.lg,
-    borderRadius: theme.radius.xl,
-  },
-  continue: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: runTime.insets.bottom,
-  },
-  submit: {
-    backgroundColor: 'red',
-    padding: theme.spacing.lg,
-    borderRadius: theme.radius.xl,
   },
 }));
 

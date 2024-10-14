@@ -4,8 +4,8 @@ import {
   Inter_500Medium as interMedium,
   Inter_600SemiBold as interSemiBold,
   Inter_700Bold as interBold,
-} from '@expo-google-fonts/inter';
-import { Platform, type TextStyle } from 'react-native';
+} from "@expo-google-fonts/inter";
+import { Platform, type TextStyle } from "react-native";
 
 export const customFontsToLoad = {
   interLight,
@@ -18,33 +18,33 @@ export const customFontsToLoad = {
 const fonts = {
   inter: {
     // Cross-platform Google font.
-    light: 'interLight',
-    normal: 'interRegular',
-    medium: 'interMedium',
-    semiBold: 'interSemiBold',
-    bold: 'interBold',
+    light: "interLight",
+    normal: "interRegular",
+    medium: "interMedium",
+    semiBold: "interSemiBold",
+    bold: "interBold",
   },
   helveticaNeue: {
     // iOS only font.
-    thin: 'HelveticaNeue-Thin',
-    light: 'HelveticaNeue-Light',
-    normal: 'Helvetica Neue',
-    medium: 'HelveticaNeue-Medium',
+    thin: "HelveticaNeue-Thin",
+    light: "HelveticaNeue-Light",
+    normal: "Helvetica Neue",
+    medium: "HelveticaNeue-Medium",
   },
   courier: {
     // iOS only font.
-    normal: 'Courier',
+    normal: "Courier",
   },
   sansSerif: {
     // Android only font.
-    thin: 'sans-serif-thin',
-    light: 'sans-serif-light',
-    normal: 'sans-serif',
-    medium: 'sans-serif-medium',
+    thin: "sans-serif-thin",
+    light: "sans-serif-light",
+    normal: "sans-serif",
+    medium: "sans-serif-medium",
   },
   monospace: {
     // Android only font.
-    normal: 'monospace',
+    normal: "monospace",
   },
 };
 

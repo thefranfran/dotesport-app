@@ -1,7 +1,7 @@
-import { type StyleProp, type TextStyle } from 'react-native';
+import { type TextStyle } from "react-native";
 
-import { isRTL } from '@/core/i18n';
-import { typography } from '@/ui';
+import { isRTL } from "@/core/i18n";
+import { typography } from "@/ui";
 
 const $fontWeightStyles = Object.entries(typography.primary).reduce(
   (acc, [weight, fontFamily]) => {
@@ -10,40 +10,24 @@ const $fontWeightStyles = Object.entries(typography.primary).reduce(
   {},
 ) as Record<Weights, TextStyle>;
 
-const $baseStyle: StyleProp<TextStyle> = [
-  typography.sizes.sm,
-  $fontWeightStyles.normal,
-];
-
-const $presets = {
-  default: $baseStyle,
-
-  bold: [$baseStyle, $fontWeightStyles.bold] as StyleProp<TextStyle>,
-
-  heading: [
-    $baseStyle,
-    typography.sizes.xxl,
-    $fontWeightStyles.bold,
-  ] as StyleProp<TextStyle>,
-
-  subheading: [
-    $baseStyle,
-    typography.sizes.lg,
-    $fontWeightStyles.medium,
-  ] as StyleProp<TextStyle>,
-
-  formLabel: [$baseStyle, $fontWeightStyles.medium] as StyleProp<TextStyle>,
-
-  formHelper: [
-    $baseStyle,
+export const $presets = {
+  default: typography.sizes.sm,
+  bold: [typography.sizes.sm, $fontWeightStyles.bold],
+  underline: [typography.sizes.sm, { textDecorationLine: "underline" }],
+  required: [
     typography.sizes.sm,
-    $fontWeightStyles.normal,
-  ] as StyleProp<TextStyle>,
-};
+    $fontWeightStyles.bold,
+    { color: "red" },
+  ] as TextStyle,
+  heading: [],
+  subheading: [],
+  formLabel: [],
+  formHelper: [],
+} as const;
 
-const $rtlStyle: TextStyle = isRTL ? { writingDirection: 'rtl' } : {};
+const $rtlStyle: TextStyle = isRTL ? { writingDirection: "rtl" } : {};
 
-export { $baseStyle, $fontWeightStyles, $presets, $rtlStyle };
+export { $fontWeightStyles, $rtlStyle };
 export type Weights = keyof typeof typography.primary;
 export type Presets = keyof typeof $presets;
 export type Sizes = keyof typeof typography.sizes;
