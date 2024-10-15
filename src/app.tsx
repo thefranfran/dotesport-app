@@ -8,7 +8,6 @@ import { RootLayout } from '@/app/layout';
 
 if (__DEV__) {
   require('./devtools/ignore-warnings');
-  require('./devtools/reactotron-config');
   require('./devtools/wdyr');
 }
 

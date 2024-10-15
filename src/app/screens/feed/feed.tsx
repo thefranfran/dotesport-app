@@ -1,15 +1,24 @@
-import { useMemo, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useStyles } from 'react-native-unistyles';
 
 import { type HomeTabScreenProps } from '@/app/bottom-navigation';
+import { Screen } from '@/components/screen';
+
+import FeedList from './feed-list';
 
 interface FeedProps extends HomeTabScreenProps<'Feed'> {}
 
-const Feed = (props: FeedProps) => {
-  return null;
+const Feed = () => {
+  const { styles } = useStyles(stylesheet);
+
+  return (
+    <Screen preset='fixed' style={styles.container} safeAreaEdges={['top']}>
+      <FeedList />
+    </Screen>
+  );
 };
 
-const styles = StyleSheet.create({
+const stylesheet = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

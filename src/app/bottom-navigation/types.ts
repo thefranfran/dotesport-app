@@ -9,6 +9,9 @@ import { type Leagues, type Team } from "@/types";
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<HomeTabParamList>;
+  Article: {
+    url: string;
+  };
   OnboardingStack: NavigatorScreenParams<OnboardingStackParamList>;
 };
 

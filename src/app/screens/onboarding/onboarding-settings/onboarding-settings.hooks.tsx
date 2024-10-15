@@ -49,7 +49,7 @@ export const useHeader = ({
         />
       ),
     });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [navigation]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return { visibleFontScaling, position, toggleFontScaling };
 };

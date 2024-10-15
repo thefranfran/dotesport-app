@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { type OnboardingStackScreenProps } from '@/app/bottom-navigation';
@@ -19,12 +19,18 @@ const Onboarding = (props: OnboardingProps) => {
     undefined,
   );
 
+  const enrolledTeamRef = useRef<Team | undefined>(enrolledTeam);
+  enrolledTeamRef.current = enrolledTeam;
+
+  const selectedLeagueRef = useRef<Leagues | undefined>(selectedLeagues);
+  selectedLeagueRef.current = selectedLeagues;
+
   const navigateToSettings = useCallback(() => {
     navigation.push('OnboardingSettings', {
-      preferred_league: selectedLeagues!,
-      preferred_team: enrolledTeam!,
+      preferred_league: selectedLeagueRef.current!,
+      preferred_team: enrolledTeamRef.current!,
     });
-  }, [selectedLeagues, enrolledTeam]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { styles } = useStyles(stylesheet);
   const { animatedViewStyle } = useSubmitAnimation({

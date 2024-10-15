@@ -29,8 +29,11 @@ const OnboardingProfile = (props: OnboardingProfileProps) => {
       <Stack justify='center'>
         <Button text='Create my profile' />
         <Separator />
-        <Button text='Link my riot account' />
-        <Text>Pro</Text>
+        <Button preset='riot' text='Link my riot account' />
+        <Text style={styles.riot_infos}>
+          Speed up the process by linking your riot account, futhermore it will
+          be required to get rewards if you want to claim them.
+        </Text>
       </Stack>
       <NextButton title='Skip' navigate={skip} />
     </Screen>
@@ -42,6 +45,9 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
     paddingHorizontal: theme.spacing.xl * 2,
     justifyContent: 'center',
+  },
+  riot_infos: {
+    marginTop: theme.spacing.xl,
   },
 }));
 

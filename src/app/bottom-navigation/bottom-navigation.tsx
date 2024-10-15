@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { FeedProvider } from '@/app/screens/feed/feed.index';
+import Feed from '@/app/screens/feed';
 
 import { type HomeTabParamList } from './types';
 
@@ -13,7 +13,7 @@ export const BottomNavigation = () => {
         headerShown: false,
       }}
     >
-      <Tab.Screen name='Feed' component={FeedProvider} />
+      <Tab.Screen name='Feed' component={Feed} />
     </Tab.Navigator>
   );
 };

@@ -10,6 +10,7 @@ import {
 
 import { OnboardingStackNavigation } from './onboarding-stack';
 import { useInitializationNavigation } from './stack-navigation.hooks';
+import Article from '@/app/screens/article';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,7 +35,16 @@ export const StackNavigation = () => {
           component={OnboardingStackNavigation}
         />
       ) : (
-        <Stack.Screen name='Root' component={BottomNavigation} />
+        <Stack.Group>
+          <Stack.Screen name='Root' component={BottomNavigation} />
+          <Stack.Screen
+            name='Article'
+            component={Article}
+            options={{
+              presentation: 'modal',
+            }}
+          />
+        </Stack.Group>
       )}
     </Stack.Navigator>
   );
