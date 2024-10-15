@@ -9,6 +9,10 @@ export type Colors = {
     background: Color;
     transparent: Color;
     palette: Palette;
+    riot: {
+        primary: Color;
+        secondary: Color;
+    };
 };
 
 export type Palette = {

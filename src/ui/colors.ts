@@ -23,6 +23,10 @@ export const lightColors: Colors = {
   background: "#ffffff",
   transparent: "rgba(0, 0, 0, 0)",
   palette: lightPalette,
+  riot: {
+    primary: "#EB0029",
+    secondary: "#EB0029",
+  },
 } as const;
 
 export const darkColors: Colors = {
@@ -30,4 +34,8 @@ export const darkColors: Colors = {
   background: "#000000",
   transparent: "rgba(0, 0, 0, 0)",
   palette: darkPalette,
+  riot: {
+    primary: "#EB0029",
+    secondary: "#EB0029",
+  },
 } as const;
