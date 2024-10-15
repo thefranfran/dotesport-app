@@ -75,7 +75,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                     <NavigationContainer ref={navigationRef}>
                       {children}
                     </NavigationContainer>
-                    <Toaster />
                   </BottomSheetModalProvider>
                 </FontSizeProvider>
               </QueryClientProvider>
