@@ -16,6 +16,7 @@ const $viewPresets = {
     filled: [] as StyleProp<ViewStyle>,
     transparent: [] as StyleProp<ViewStyle>,
     reversed: [] as StyleProp<ViewStyle>,
+    riot: [] as StyleProp<ViewStyle>,
 };
 
 type Presets = keyof typeof $viewPresets;

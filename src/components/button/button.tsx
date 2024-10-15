@@ -65,6 +65,15 @@ const Button = (props: ButtonProps) => {
         },
       ],
 
+      riot: [
+        $baseViewStyle,
+        {
+          borderWidth: 1,
+          borderColor: theme.colors.riot.primary,
+          backgroundColor: theme.colors.riot.secondary,
+        },
+      ],
+
       filled: [
         $baseViewStyle,
         { backgroundColor: theme.colors.palette.neutral300 },
@@ -85,6 +94,7 @@ const Button = (props: ButtonProps) => {
       default: $baseTextStyle,
       transparent: $baseTextStyle,
       filled: $baseTextStyle,
+      riot: [$baseTextStyle, { color: theme.colors.background }],
       reversed: [$baseTextStyle, { color: theme.colors.palette.neutral100 }],
     };
   }, [theme]);
@@ -96,6 +106,7 @@ const Button = (props: ButtonProps) => {
     return {
       default: { backgroundColor: theme.colors.palette.neutral200 },
       transparent: { backgroundColor: theme.colors.transparent },
+      riot: { backgroundColor: theme.colors.palette.neutral300 },
       filled: { backgroundColor: theme.colors.palette.neutral400 },
       reversed: { backgroundColor: theme.colors.palette.neutral700 },
     };
@@ -109,6 +120,7 @@ const Button = (props: ButtonProps) => {
       default: { opacity: 0.9 },
       filled: { opacity: 0.9 },
       transparent: { opacity: 0.9 },
+      riot: { opacity: 0.9 },
       reversed: { opacity: 0.9 },
     };
   }, []);

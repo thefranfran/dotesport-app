@@ -55,7 +55,11 @@ const Icon = (props: IconProps) => {
           ...overrideIcon,
         })
       ) : icon ? (
-        <Image source={iconTeamRegistry[icon]} style={$imageStyle} />
+        <Image
+          contentFit='contain'
+          source={iconTeamRegistry[icon]}
+          style={$imageStyle}
+        />
       ) : null}
     </Wrapper>
   );

@@ -12,7 +12,9 @@ const Separator = (props: SeparatorProps) => {
     <View {...props} style={[styles.container, props.style]}>
       <Row align='center'>
         <View style={styles.line} />
-        <Text style={styles.content}>OR</Text>
+        <Text style={styles.content} size='xs'>
+          OR
+        </Text>
         <View style={styles.line} />
       </Row>
     </View>
